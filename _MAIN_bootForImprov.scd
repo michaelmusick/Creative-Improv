@@ -20,8 +20,17 @@ Server.killAll
 
 (
 o = Server.default.options;
-o.numInputBusChannels = 4;
-o.numOutputBusChannels = 8;
+o.numInputBusChannels = 16;
+o.numOutputBusChannels = 16;
+// o.device = "Dante Via 16 Channel";
+// o.inDevice = "USBPre2";
+// o.inDevice = "Built-in Microphone";
+o.inDevice = "nexusMac";
+// o.outDevice = "Dante Via 16 Channel";
+o.outDevice = "nexusMac";
+// o.outDevice = "Built-in Output";
+o.hardwareBufferSize = 128;
+
 o.memSize = 2**21;
 
 s.reboot;
@@ -31,9 +40,12 @@ s.doWhenBooted({
 	MIDIClient.init; MIDIIn.connectAll;
 	s.plotTree;
 	s.meter;
+("./toLoad/*").loadRelative;
 });
 
 )
 
 
-("/Users/mmusick/mm_GD/Creative_Improv/toLoad/*").loadPaths;
+// ("/Users/mmusick/mm_GD/creative_improv/toLoad/*").loadPaths;
+
+

@@ -30,7 +30,7 @@ s.scope
 
 (
 SynthDef(\combFun, {
-	arg input1 = 0, input3 = 0, input4 = 0, output = 2,
+	arg input1 = 0, input2 = 1, output = 10,
 		inMul = 1, outMul = 1;
 	var sig, sig1, sig2, sigL, sigR, delay0, decay0, delay1, decay1;
 	var pitch, pitch1, slope, env, dead, amp, fft;
@@ -40,7 +40,7 @@ SynthDef(\combFun, {
 	amp = Amplitude.kr(sig1);
 	env = Env.perc(0.01, 0.4);
 	env = EnvGen.kr(env, amp.linlin(0,0.04,-0.3,0.001).clip(0,1));
-	sig = SoundIn.ar( [ input3, input4 ] );
+	sig = SoundIn.ar( input1 );
 	sig = sig * 6 * inMul.lag(2);
 	sig = Limiter.ar( sig, 0.95 );
 	sig = sig * amp.linlin(0.0001,0.1,1,0).clip(0,1).lag(2);
@@ -159,6 +159,8 @@ MIDIdef.cc(\combFun_init,
 				{~combFun.sdef.free; ~combFun.sdef = nil;});
 			"Starting \combFun".postln;
 			~combFun.sdef = Synth(\combFun);
+			~combFun.mic1 = 0;
+			~combFun.mic2 = 1;
 		});
 
 		if(val==0, {
@@ -208,20 +210,20 @@ MIDIdef.cc(\combFun_outMul,
 MIDIdef.cc(\combFun_changeChanIns,
 	{
 		arg val, ccNum, chan, id;
-		var mic1, mic2, mic3, chans;
+		var mic1, mic2;
 		// val.postln;
 		if( val > 0, {
 
-			chans = [0,1,2,3];
-			mic1 = chans[4.rand];
-			mic2 = chans[4.rand];
-			mic3 = chans[4.rand];
+
+			mic1 = ~combFun.mic2;
+			mic2 = ~combFun.mic1;
+			~combFun.mic1 = mic1;
+			~combFun.mic2 = mic2;
 
 			("combFun - MicIns: ").post;
-			[mic1, mic2, mic3].postln;
+			[mic1, mic2].postln;
 			~combFun.sdef.set(\input1, mic1);
-			~combFun.sdef.set(\input3, mic2);
-			~combFun.sdef.set(\input4, mic3);
+			~combFun.sdef.set(\input2, mic2);
 		});
 	},
 	ccNum: 31,
@@ -241,7 +243,9 @@ MIDIdef.cc(\combFun2_init,
 			if(~combFun2.sdef.notNil,
 				{~combFun2.sdef.free; ~combFun2.sdef = nil;});
 			"Starting \combFun2".postln;
-			~combFun2.sdef = Synth(\combFun);
+			~combFun2.sdef = Synth(\combFun, [\input1, 1, \input2, 0]);
+			~combFun2.mic1 = 0;
+			~combFun2.mic2 = 1;
 		});
 
 		if(val==0, {
@@ -291,20 +295,19 @@ MIDIdef.cc(\combFun2_outMul,
 MIDIdef.cc(\combFun2_changeChanIns,
 	{
 		arg val, ccNum, chan, id;
-		var mic1, mic2, mic3, chans;
+		var mic1, mic2;
 		// val.postln;
 		if( val > 0, {
 
-			chans = [0,1,2,3];
-			mic1 = chans[4.rand];
-			mic2 = chans[4.rand];
-			mic3 = chans[4.rand];
+			mic1 = ~combFun2.mic2;
+			mic2 = ~combFun2.mic1;
+			~combFun2.mic1 = mic1;
+			~combFun2.mic2 = mic2;
 
-			("combFun2 - MicIns: ").post;
-			[mic1, mic2, mic3].postln;
+			("combFun - MicIns: ").post;
+			[mic1, mic2].postln;
 			~combFun2.sdef.set(\input1, mic1);
-			~combFun2.sdef.set(\input3, mic2);
-			~combFun2.sdef.set(\input4, mic3);
+			~combFun2.sdef.set(\input2, mic2);
 		});
 	},
 	ccNum: 32,

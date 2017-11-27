@@ -30,7 +30,7 @@ Modified: 2015-08-01 15:31:18
 
 (
 SynthDef(\scaredClicks, {
-	arg input = 0, output = 2, panPos = 0, dustRate = 20, outMul = 1, inMul = 1;
+	arg input = 0, output = 12, panPos = 0, dustRate = 20, outMul = 1, inMul = 1;
 	var sig, analysis, env, delay = 5, decay = 15;
 
 	sig = SoundIn.ar(input);

@@ -32,7 +32,7 @@ Modified: 2015-11-05 19:40:44
 
 (
 SynthDef(\sparseClicks, {
-	arg input = 0, output = 2, bufferSize = 512, panPos = 0,
+	arg input = 0, output = 8, bufferSize = 512, panPos = 0,
 		magBelowThresh = 70, inMul = 1, outMul = 1;
 	var sig, analysis, runningMin, runningMax, sigFFT, delay, onsetanalysis;
 	var burstEnv, amplitude;
@@ -176,7 +176,7 @@ MIDIdef.cc(\sparseClicks_inChan,
 		arg val, ccNum, chan, id;
 
 		~sparseClicks.micChan = ~sparseClicks.micChan + 1;
-		~sparseClicks.micChan = (~sparseClicks.micChan).mod(4);
+		~sparseClicks.micChan = (~sparseClicks.micChan).mod(2);
 
 		("sparseClicks - In Chan: ").post;
 		~sparseClicks.micChan.postln;

@@ -31,7 +31,7 @@ Synth(\morningShimmer, [\input, 11, \output, 4]);
 
 (
 SynthDef(\morningShimmer, {
-	arg input = 0, output = 2, inMul = 1, outMul = 1;
+	arg input = 0, output = 14, inMul = 1, outMul = 1;
 	var sig, fftChain, feedbackAmp, env;
 
 	feedbackAmp = LocalIn.kr(1);
@@ -149,7 +149,7 @@ MIDIdef.cc(\mornShim_inChan,
 		arg val, ccNum, chan, id;
 
 		~mornShim.micChan = ~mornShim.micChan + 1;
-		~mornShim.micChan = (~mornShim.micChan).mod(4);
+		~mornShim.micChan = (~mornShim.micChan).mod(2);
 
 		("mornShim - In Chan: ").post;
 		~mornShim.micChan.postln;
@@ -227,7 +227,7 @@ MIDIdef.cc(\mornShim2_inChan,
 		arg val, ccNum, chan, id;
 
 		~mornShim2.micChan = ~mornShim2.micChan + 1;
-		~mornShim2.micChan = (~mornShim2.micChan).mod(4);
+		~mornShim2.micChan = (~mornShim2.micChan).mod(2);
 
 		("mornShim2 - In Chan: ").post;
 		~mornShim2.micChan.postln;

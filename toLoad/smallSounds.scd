@@ -32,7 +32,7 @@ Notes:
 
 (
 SynthDef(\smallSounds) {
-	arg input = 0, output = 2, binMul = 60,
+	arg input = 0, output = 6, binMul = 60,
 	fftSize = 4096, outMul = 1, inMul = 1;
 	var sig, sigFFT, harmFFT, percFFT;
 
@@ -159,7 +159,7 @@ MIDIdef.cc(\smallSounds_inChan,
 		arg val, ccNum, chan, id;
 
 		~smallSounds.micChan = ~smallSounds.micChan + 1;
-		~smallSounds.micChan = (~smallSounds.micChan).mod(4);
+		~smallSounds.micChan = (~smallSounds.micChan).mod(2);
 
 		("smallSounds - In Chan: ").post;
 		~smallSounds.micChan.postln;

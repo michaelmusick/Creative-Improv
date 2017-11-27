@@ -34,7 +34,7 @@ SynthDef( \prettySynth,
 	{
 		arg maxDur = 30, amp = 0.8, rmsThresh = 0.03, input = 0,
 			winType = 1, winSize = 2048,
-			panPos = 0, panWidth = 2, inMul = 1, outMul = 1, output = 2;
+			panPos = 0, panWidth = 2, inMul = 1, outMul = 1, output = 4;
 		var sigIn, analysis, fft1, fft2, sig, env, contEnv, rmsThreshEnv;
 
 		sigIn = SoundIn.ar( input ) * inMul.lag(1);
@@ -186,7 +186,7 @@ MIDIdef.cc(\prettySynth_inChan,
 		arg val, ccNum, chan, id;
 
 		~prettySynth.micChan = ~prettySynth.micChan + 1;
-		~prettySynth.micChan = (~prettySynth.micChan).mod(4);
+		~prettySynth.micChan = (~prettySynth.micChan).mod(2);
 
 		("prettySynth - In Chan: ").post;
 		~prettySynth.micChan.postln;
@@ -263,7 +263,7 @@ MIDIdef.cc(\prettySynth2_inChan,
 		arg val, ccNum, chan, id;
 
 		~prettySynth2.micChan = ~prettySynth2.micChan + 1;
-		~prettySynth2.micChan = (~prettySynth2.micChan).mod(4);
+		~prettySynth2.micChan = (~prettySynth2.micChan).mod(2);
 
 		("prettySynth2 - In Chan: ").post;
 		~prettySynth2.micChan.postln;

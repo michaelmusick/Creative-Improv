@@ -27,7 +27,7 @@ s.plotTree
 
 (
 SynthDef(\comb_feedback, {
-	arg output = 0, input = 0, in_fb = 0, input_gain = 0,
+	arg output = 2, input = 0, in_fb = 0, input_gain = 0,
 		out_main = 0, panPos = 0, amp_main = 0,
 		delayTime = 0, delayTimeMod = 1,
 		decayTime = 0, delayLag = 0.5,
@@ -127,7 +127,8 @@ SynthDef(\comb_feedback, {
 
 ~cFB = ();
 ~cFB.sdef  = Array.newClear(3);
-~cFB.in = [0,1,2,3];
+// ~cFB.in = [0,1,2,3];
+~cFB.in = [0,1];
 ~cFB.inPtr = [0,0,0];
 ~cFB.inGainCC = 60;
 ~cFB.mainAmpCC = 14;
@@ -245,7 +246,7 @@ MIDIdef.cc(\combFB_delayLag,
 		arg val, ccNum, chan, id;
 		ccNum = ccNum - ~cFB.decayTimeCC;
 
-		if(val>122, {val=100000},
+		if(val>122, {val=1000},
 			{
 				val = val+1;
 				val = val.linexp(1,127,1,240);
