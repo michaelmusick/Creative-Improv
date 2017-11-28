@@ -6,4 +6,3 @@ The Ecosystemic Improvisation Environment is a creative improvisation instrument
 
 
 
-# Toronto-International-Electroacoustic-Symposium-2017-SUBMISSION
