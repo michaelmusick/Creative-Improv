@@ -133,7 +133,7 @@ MIDIdef.cc(\prettySynth_init,
 			if(~prettySynth.sdef.notNil,
 				{~prettySynth.sdef.free; ~prettySynth.sdef = nil;});
 			"Starting \prettySynth".postln;
-			~prettySynth.sdef = Synth(\prettySynth);
+			~prettySynth.sdef = Synth(\prettySynth, [\input, ~global.mic[1]]);
 		});
 
 		if(val==0, {
@@ -189,9 +189,9 @@ MIDIdef.cc(\prettySynth_inChan,
 		~prettySynth.micChan = (~prettySynth.micChan).mod(2);
 
 		("prettySynth - In Chan: ").post;
-		~prettySynth.micChan.postln;
+		(~prettySynth.micChan + ~global.mic[1]).postln;
 
-		~prettySynth.sdef.set(\input, ~prettySynth.micChan);
+		~prettySynth.sdef.set(\input, ~prettySynth.micChan + ~global.mic[1]);
 	},
 	ccNum: 36,
 	chan: 1
@@ -210,7 +210,7 @@ MIDIdef.cc(\prettySynth2_init,
 			if(~prettySynth2.sdef.notNil,
 				{~prettySynth2.sdef.free; ~prettySynth2.sdef = nil;});
 			"Starting \prettySynth2".postln;
-			~prettySynth2.sdef = Synth(\prettySynth);
+			~prettySynth2.sdef = Synth(\prettySynth, [\input, ~global.mic[1]]);
 		});
 
 		if(val==0, {
@@ -266,9 +266,9 @@ MIDIdef.cc(\prettySynth2_inChan,
 		~prettySynth2.micChan = (~prettySynth2.micChan).mod(2);
 
 		("prettySynth2 - In Chan: ").post;
-		~prettySynth2.micChan.postln;
+		(~prettySynth2.micChan + ~global.mic[1]).postln;
 
-		~prettySynth2.sdef.set(\input, ~prettySynth2.micChan);
+		~prettySynth2.sdef.set(\input, ~prettySynth2.micChan + ~global.mic[1]);
 	},
 	ccNum: 37,
 	chan: 1

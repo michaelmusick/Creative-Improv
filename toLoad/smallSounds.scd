@@ -106,7 +106,7 @@ MIDIdef.cc(\smallSounds_init,
 			if(~smallSounds.sdef.notNil,
 				{~smallSounds.sdef.free; ~smallSounds.sdef = nil;});
 			"Starting \smallSounds".postln;
-			~smallSounds.sdef = Synth(\smallSounds);
+			~smallSounds.sdef = Synth(\smallSounds, [\input, ~global.mic[1]]);
 		});
 
 		if(val==0, {
@@ -162,9 +162,9 @@ MIDIdef.cc(\smallSounds_inChan,
 		~smallSounds.micChan = (~smallSounds.micChan).mod(2);
 
 		("smallSounds - In Chan: ").post;
-		~smallSounds.micChan.postln;
+		(~smallSounds.micChan + ~global.mic[1]).postln;
 
-		~smallSounds.sdef.set(\input, ~smallSounds.micChan);
+		~smallSounds.sdef.set(\input, ~smallSounds.micChan + ~global.mic[1]);
 	},
 	ccNum: 33,
 	chan: 1

@@ -25,7 +25,7 @@ Modified: 2015-08-01 15:31:18
 
 (
 ~scaredClicks = ();
-~scaredClicks.sdef = Array.newClear(4);
+~scaredClicks.sdef = Array.newClear(~global.mic.size);
 );
 
 (
@@ -112,7 +112,7 @@ MIDIdef.cc(\scareClicks_init,
 			});
 			"Starting \scaredClicks".postln;
 			~scaredClicks.sdef.do({|item, idx|
-				~scaredClicks.sdef[idx] = Synth(\scaredClicks, [\input, idx]);
+				~scaredClicks.sdef[idx] = Synth(\scaredClicks, [\input, ~global.mic[1] + idx ]);
 			});
 		});
 
@@ -140,10 +140,9 @@ MIDIdef.cc(\scareClicks_inMul,
 
 		("scareClicks - MicGain: ").post;
 		val.round(0.01).postln;
-		~scaredClicks.sdef[0].set(\inMul, val);
-		~scaredClicks.sdef[1].set(\inMul, val);
-		~scaredClicks.sdef[2].set(\inMul, val);
-		~scaredClicks.sdef[3].set(\inMul, val);
+		~scaredClicks.sdef.do({|item, idx|
+			~scaredClicks.sdef[idx].set(\inMul, val);
+		});
 	},
 	ccNum: 4,
 	chan: 1
@@ -157,11 +156,9 @@ MIDIdef.cc(\scareClicks_outMul,
 
 		("scareClicks - Out Gain: ").post;
 		val.round(0.01).postln;
-
-		~scaredClicks.sdef[0].set(\outMul, val);
-		~scaredClicks.sdef[1].set(\outMul, val);
-		~scaredClicks.sdef[2].set(\outMul, val);
-		~scaredClicks.sdef[3].set(\outMul, val);
+		~scaredClicks.sdef.do({|item, idx|
+			~scaredClicks.sdef[idx].set(\outMul, val);
+		});
 	},
 	ccNum: 14,
 	chan: 1

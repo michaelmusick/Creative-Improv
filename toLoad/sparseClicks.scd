@@ -123,7 +123,7 @@ MIDIdef.cc(\sparseClicks_init,
 			if(~sparseClicks.sdef.notNil,
 				{~sparseClicks.sdef.free; ~sparseClicks.sdef = nil;});
 			"Starting \sparseClicks".postln;
-			~sparseClicks.sdef = Synth(\sparseClicks);
+			~sparseClicks.sdef = Synth(\sparseClicks, [\input,  ~global.mic[1]]);
 		});
 
 		if(val==0, {
@@ -179,9 +179,9 @@ MIDIdef.cc(\sparseClicks_inChan,
 		~sparseClicks.micChan = (~sparseClicks.micChan).mod(2);
 
 		("sparseClicks - In Chan: ").post;
-		~sparseClicks.micChan.postln;
+		(~sparseClicks.micChan + ~global.mic[1]).postln;
 
-		~sparseClicks.sdef.set(\input, ~sparseClicks.micChan);
+		~sparseClicks.sdef.set(\input, ~sparseClicks.micChan +  ~global.mic[1]);
 	},
 	ccNum: 35,
 	chan: 1

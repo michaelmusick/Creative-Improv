@@ -95,7 +95,7 @@ MIDIdef.cc(\mornShim_init,
 			if(~mornShim.sdef.notNil,
 				{~mornShim.sdef.free; ~mornShim.sdef = nil;});
 			"Starting \mornShim".postln;
-			~mornShim.sdef = Synth(\morningShimmer);
+			~mornShim.sdef = Synth(\morningShimmer, [\input, ~global.mic[1]]);
 		});
 
 		if(val==0, {
@@ -152,9 +152,9 @@ MIDIdef.cc(\mornShim_inChan,
 		~mornShim.micChan = (~mornShim.micChan).mod(2);
 
 		("mornShim - In Chan: ").post;
-		~mornShim.micChan.postln;
+		(~mornShim.micChan + ~global.mic[1]).postln;
 
-		~mornShim.sdef.set(\input, ~mornShim.micChan);
+		~mornShim.sdef.set(\input, ~mornShim.micChan + ~global.mic[1]);
 	},
 	ccNum: 38,
 	chan: 1
@@ -173,7 +173,7 @@ MIDIdef.cc(\mornShim2_init,
 			if(~mornShim2.sdef.notNil,
 				{~mornShim2.sdef.free; ~mornShim2.sdef = nil;});
 			"Starting \mornShim2".postln;
-			~mornShim2.sdef = Synth(\morningShimmer);
+			~mornShim2.sdef = Synth(\morningShimmer, [\input, ~global.mic[2]]);
 		});
 
 		if(val==0, {
@@ -230,9 +230,9 @@ MIDIdef.cc(\mornShim2_inChan,
 		~mornShim2.micChan = (~mornShim2.micChan).mod(2);
 
 		("mornShim2 - In Chan: ").post;
-		~mornShim2.micChan.postln;
+		(~mornShim2.micChan + ~global.mic[1]).postln;
 
-		~mornShim2.sdef.set(\input, ~mornShim2.micChan);
+		~mornShim2.sdef.set(\input, ~mornShim2.micChan + ~global.mic[1]);
 	},
 	ccNum: 39,
 	chan: 1

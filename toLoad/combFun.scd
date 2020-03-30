@@ -159,8 +159,8 @@ MIDIdef.cc(\combFun_init,
 				{~combFun.sdef.free; ~combFun.sdef = nil;});
 			"Starting \combFun".postln;
 			~combFun.sdef = Synth(\combFun);
-			~combFun.mic1 = 0;
-			~combFun.mic2 = 1;
+			~combFun.mic1 = ~global.mic[1];
+			~combFun.mic2 = ~global.mic[2];
 		});
 
 		if(val==0, {
@@ -244,8 +244,8 @@ MIDIdef.cc(\combFun2_init,
 				{~combFun2.sdef.free; ~combFun2.sdef = nil;});
 			"Starting \combFun2".postln;
 			~combFun2.sdef = Synth(\combFun, [\input1, 1, \input2, 0]);
-			~combFun2.mic1 = 0;
-			~combFun2.mic2 = 1;
+			~combFun2.mic1 = ~global.mic[1];
+			~combFun2.mic2 = ~global.mic[2];
 		});
 
 		if(val==0, {

@@ -27,7 +27,7 @@ s.plotTree
 
 (
 SynthDef(\comb_feedback, {
-	arg output = 2, input = 0, in_fb = 0, input_gain = 0,
+	arg output = 2, input = ~global.mic[1], in_fb = 0, input_gain = 0,
 		out_main = 0, panPos = 0, amp_main = 0,
 		delayTime = 0, delayTimeMod = 1,
 		decayTime = 0, delayLag = 0.5,
@@ -128,7 +128,7 @@ SynthDef(\comb_feedback, {
 ~cFB = ();
 ~cFB.sdef  = Array.newClear(3);
 // ~cFB.in = [0,1,2,3];
-~cFB.in = [0,1];
+~cFB.in = [~global.mic[1],~global.mic[2], 0, 1];
 ~cFB.inPtr = [0,0,0];
 ~cFB.inGainCC = 60;
 ~cFB.mainAmpCC = 14;
@@ -140,6 +140,7 @@ SynthDef(\comb_feedback, {
 ~cFB.pitchEffect = 26;
 ~cFB.pitchFXAmt = 20;
 ~cFB.smlDlyEffect = 35;
+
 
 
 
@@ -372,3 +373,109 @@ MIDIdef.cc(\combFB_smallDelayOnOff,
 
 );
 
+
+
+(
+~combFB_OSC.notNil(thisProcess.removeOSCRecvFunc(~combFB_OSC));
+~combFB_OSC = { |msg, time, addr|
+	var val, oscAddr, inst, idx, mainParam, secondParam;
+	oscAddr = msg[0].asString.split;
+
+	// msg.postln;
+
+	(oscAddr[1].asSymbol == \comb).if({
+		inst = oscAddr[1].asSymbol;
+		idx = oscAddr[2][1].asString.asInteger;
+		mainParam = oscAddr[3].asSymbol;
+		secondParam = oscAddr[4].asSymbol;
+		val = msg[1];
+		// oscAddr.postln;
+		// secondParam.postln;
+
+		/* Turn the Synths on and off */
+		(mainParam == \OnOff).if({
+			// ("Turn "++idx++" OnOff").postln;
+            if(val==1, {
+    			if(~cFB.sdef[idx].notNil,
+    				{~cFB.sdef[idx].free; ~cFB.sdef[idx] = nil;});
+
+    			~cFB.sdef[idx] = Synth(\comb_feedback);
+    			("START Comb Feedback V - " ++ idx).postln;
+    		});
+
+    		if(val==0, {
+    			if(~cFB.sdef[idx].notNil,
+    				{
+    					~cFB.sdef[idx].set(\amp_main, 0);
+    					~cFB.sdef[idx].set(\amp_fb, 0);
+    					~cFB.sdef[idx].free; ~cFB.sdef[idx] = nil;
+    					("Kill Comb Feedback V - " ++ idx).postln;
+    			});
+
+    		});
+		});
+
+		/* Set Input Chan */
+		(secondParam == \input).if({
+			("Set "++idx++" input to "++val).postln;
+            ~cFB.sdef[idx].set(\input, ~cFB.in[val]);
+		});
+
+		/* Set Mic Gain */
+		(secondParam == \micGain).if({
+			("Set "++idx++" mic gain to "++val).postln;
+            ~cFB.sdef[idx].set(\input_gain, val);
+		});
+
+		/* Set Out Gain */
+		(secondParam == \outGain).if({
+			("Set "++idx++" out gain to "++val).postln;
+            ~cFB.sdef[idx].set(\amp_main, val);
+		});
+
+		/* Set Pan Pos */
+		(secondParam == \pan).if({
+			("Set "++idx++" pan pos to "++val).postln;
+            ~cFB.sdef[idx].set(\panPos, val);
+		});
+
+		/* Set Decay Time */
+		(secondParam == \decayVal).if({
+			("Set "++idx++" decay time to "++val).postln;
+            ~cFB.sdef[idx].set(\decayTime, val);
+		});
+
+		/* Set Delay Lag */
+		(secondParam == \delayLag).if({
+			("Set "++idx++" delayLag to "++val).postln;
+            ~cFB.sdef[idx].set(\delayLag, val);
+		});
+
+
+		/* Set Delay Time */
+		(secondParam == \delayVal).if({
+			("Set "++idx++" delay time val to "++val).postln;
+            ~cFB.sdef[idx].set(\delayTime, val);
+		});
+
+		/* Set PitchEffect OnOff */
+		(mainParam == \pitchOnOff).if({
+			("Set "++idx++" pitch effect to "++val).postln;
+            ~cFB.sdef[idx].set(\pitchShiftOnOff, val);
+		});
+
+		/* Set Pitch Effect Amt Time */
+		(secondParam == \pitchAmt).if({
+			("Set "++idx++" pitch effect amt to "++val).postln;
+            ~cFB.sdef[idx].set(\pitchEffect, val);
+		});
+
+
+
+
+	}
+
+	)
+};
+thisProcess.addOSCRecvFunc(~combFB_OSC);
+);
